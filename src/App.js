@@ -14,6 +14,7 @@ class App extends Component {
     console.log(this.state.bins);
   }
 
+// resets and re randomizes the states of all the litter bins eevry 1.5seconds
   startGame() {
     setInterval(() => {
       this.setState( {
@@ -22,6 +23,7 @@ class App extends Component {
     }, 1500);
   }
 
+// will return 0 if rounds down, and 0 and 1 are whether the trash is on the bin
   getBinsState() {
     let bins = [];
     for (let i = 0; i < 9; i++){
@@ -32,13 +34,16 @@ class App extends Component {
   }
 
   onTrashClicked = () => {
-    // Fill this in!
+    console.log(`Increasing points`);
+    this.setState({ points: this.state.points + 1 });
   }
 
   render() {
     const bins = this.state.bins.map((bin, index) => {
       return (
-        <Trash key={`trash-${index}`} />
+        <Trash key={`trash-${index}`}
+        clickedLitterCallback={ this.onTrashClicked }
+        visible = { bin.isTrashVisible }/>
       );
     });
 
@@ -47,6 +52,7 @@ class App extends Component {
         <section className="overall-data">
           <h1>Litter Patrol</h1>
           <h2>Points: { this.state.points }</h2>
+
         </section>
 
         <section className="bins">
